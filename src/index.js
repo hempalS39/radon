@@ -17,6 +17,12 @@ mongoose.connect("mongodb+srv://functionup-radon:emE3iyVTUPWqSmGf@cluster0.1xlec
 app.use (
     function (req, res, next) {
         console.log ("inside GLOBAL MW");
+
+        let currentDate = new Date().toLocaleString()
+        let IP = req.ip 
+        let currentRoute = req.originalUrl
+        console.log(currentDate ," ", IP ," ", currentRoute)
+
         next();
   }
   );
