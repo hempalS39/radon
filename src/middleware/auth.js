@@ -16,4 +16,17 @@ const jwt = require("jsonwebtoken");
 
  }
 
+ const authMiddleware = function (req, res, next) {
+
+      let token = req.headers["x-auth-token"];
+      let  decodedToken = jwt.verify(token, "functionup-radon")
+      let userToBeModified = req.params.userId
+      let userLoggedIn = decodedToken.userId
+
+      if(userToBeModified != userLoggedIn) return res.send({status: false, msg:"user loggedIn is not allowed to modified the requested user data" })
+  
+   next()
+ }
+
  module.exports.tokenMid1 = tokenMid1
+ module.exports.authMiddleware = authMiddleware

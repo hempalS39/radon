@@ -44,7 +44,7 @@ const loginUser = async function (req, res) {
 
 //<--------------------------getUserDataApi-------------------------------------->
 
-const getUserData = async function (req, res) {
+// const getUserData = async function (req, res) {
   // let token = req.headers["x-Auth-token"];
   // if (!token) token = req.headers["x-auth-token"];
 
@@ -61,6 +61,19 @@ const getUserData = async function (req, res) {
   // let decodedToken = jwt.verify(token, "functionup-radon");
   // if (!decodedToken)
   //   return res.send({ status: false, msg: "token is invalid" });
+const getUserData = async function (req, res) {
+
+
+  //authorization
+  let token = req.headers["x-auth-token"];
+  let  decodedToken = jwt.verify(token, "functionup-radon")
+  let userToBeModified = req.params.userId
+  let userLoggedIn = decodedToken.userId
+
+  if(userToBeModified != userLoggedIn) return res.send({status: false, msg:"user loggedIn is not allowed to modified the requested user data" })
+  // let user = await userModel.findById(req.params.userId)
+
+
 
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
@@ -74,17 +87,15 @@ const getUserData = async function (req, res) {
 //<--------------------------updateUserApi-------------------------------------->
 
 const updateUser = async function (req, res) {
+  
 
-  // let token = req.headers["x-Auth-token"];
-  //   if (!token) token = req.headers["x-auth-token"];
+  let token = req.headers["x-auth-token"];
+  let  decodedToken = jwt.verify(token, "functionup-radon")
+  let userToBeModified = req.params.userId
+  let userLoggedIn = decodedToken.userId
 
-  //   //If no token is present in the request header return error
-  //   if (!token) return res.send({ status: false, msg: "token must be present" });
-
-
-  //   let decodedToken = jwt.verify(token, "functionup-radon");
-  //   if (!decodedToken){ 
-  //   return res.send({ status: false, msg: "token is invalid" });}
+  if(userToBeModified != userLoggedIn) return res.send({status: false, msg:"user loggedIn is not allowed to modified the requested user data" })
+  // let user = await userModel.findById(req.params.userId)
 
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
@@ -103,18 +114,15 @@ const updateUser = async function (req, res) {
 //<--------------------------deleteUserApi-------------------------------------->
 
 const deleteUser = async function (req , res) {
-  // let token = req.headers["x-Auth-token"];
-  // if (!token) token = req.headers["x-auth-token"];
-
-  // //If no token is present in the request header return error
-  // if (!token) return res.send({ status: false, msg: "token must be present" });
-
-  // // console.log(token);
   
+
+  let token = req.headers["x-auth-token"];
+  let  decodedToken = jwt.verify(token, "functionup-radon")
+  let userToBeModified = req.params.userId
+  let userLoggedIn = decodedToken.userId
+
+  if(userToBeModified != userLoggedIn) return res.send({status: false, msg:"user loggedIn is not allowed to modified the requested user data" })
   
-  // let decodedToken = jwt.verify(token, "functionup-radon");
-  // if (!decodedToken)
-  //   return res.send({ status: false, msg: "token is invalid" });
 
   let userId = req.params.userId
   let user = await userModel.findById(userId)
