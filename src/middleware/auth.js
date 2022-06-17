@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 
  const tokenMid1 = function (req, res, next){ 
+
+   try{
     let token = req.headers["x-Auth-token"];
     if (!token) token = req.headers["x-auth-token"];
 
@@ -10,7 +12,9 @@ const jwt = require("jsonwebtoken");
 
     let decodedToken = jwt.verify(token, "functionup-radon");
     if (!decodedToken){ 
-    return res.send({ status: false, msg: "token is invalid" });}
+    return res.ststus(201).send({ status: false, msg: "token is invalid" });}
+   }
+   catch(err){res.status(500).send({msg:"Error", error: err.message})}
 
     next()
 
